@@ -1,6 +1,7 @@
 package com.example.spring_security.services;
 
 import com.example.spring_security.exceptions.AuthorNotFoundException;
+import com.example.spring_security.exceptions.BookNotFoundException;
 import com.example.spring_security.models.Author;
 import com.example.spring_security.models.Book;
 import com.example.spring_security.repositories.AuthorRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Service
 public class AuthorService implements IAuthorService {
@@ -20,10 +22,13 @@ public class AuthorService implements IAuthorService {
     }
     @Override
     @Transactional
-    public Author getAuthorById(UUID id) {
+    public Author getAuthorById(UUID authorId) {
+        Supplier<AuthorNotFoundException> supplier = () -> {
+            return new AuthorNotFoundException("The author with id : "+authorId+ " not found.");
+        };
         return authorRepository
-                .findById(id)
-                .orElseThrow();
+                .findById(authorId)
+                .orElseThrow(supplier);
     }
 
     @Override
@@ -40,6 +45,12 @@ public class AuthorService implements IAuthorService {
             author.addBook(book);
         }
         return authorRepository.save(author);
+    }
+
+    @Override
+    @Transactional
+    public void deleteBook(Author author, Book book) {
+        author.removeBook(book);
     }
 
     @Override

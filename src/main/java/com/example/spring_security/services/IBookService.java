@@ -9,6 +9,4 @@ import java.util.UUID;
 @Service
 public interface IBookService {
     Book getBook(UUID bookId);
-    void removeBook(UUID bookId);
-
 }

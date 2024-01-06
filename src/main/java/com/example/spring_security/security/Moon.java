@@ -25,6 +25,3 @@ import java.util.Collection;
     //NoOpPasswordEncoder
     //BcryptPasswordEncoder
     //ScryptPasswordEncoder
-public class Moon {
-
-}

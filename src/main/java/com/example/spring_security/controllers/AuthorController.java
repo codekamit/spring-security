@@ -3,24 +3,28 @@ package com.example.spring_security.controllers;
 import com.example.spring_security.DTOs.*;
 import com.example.spring_security.models.Author;
 import com.example.spring_security.models.Book;
-import com.example.spring_security.services.AuthorService;
 import com.example.spring_security.services.AuthorServiceUtil;
 import com.example.spring_security.services.BookServiceUtil;
 import com.example.spring_security.services.IAuthorService;
+import com.example.spring_security.services.IBookService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/authors")
 public class AuthorController {
     private final IAuthorService authorService;
-    public AuthorController(IAuthorService authorService) {
+    private final IBookService bookService;
+    public AuthorController(IAuthorService authorService,
+                            IBookService bookService) {
         this.authorService = authorService;
+        this.bookService = bookService;
     }
 
     @GetMapping("{id}")
@@ -77,5 +81,4 @@ public class AuthorController {
                 response.setAuthorAge(savedAuthor.getAge());
         return ResponseEntity.ok().body(response);
     }
-
 }

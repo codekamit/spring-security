@@ -16,4 +16,5 @@ public interface IAuthorService {
     void addAuthor(Author author);
     Book addBookToExisitingAuthor(Book book, Author author);
     Author addNewAuthor(Author author, @Nullable Book book);
+    void deleteBook(Author author, Book book);
 }

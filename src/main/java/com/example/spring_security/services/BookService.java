@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Service
 public class BookService implements IBookService {
@@ -19,16 +20,11 @@ public class BookService implements IBookService {
     @Override
     @Transactional
     public Book getBook(UUID bookId) {
+        Supplier<BookNotFoundException> supplier = () -> {
+            return new BookNotFoundException("The book with id : "+bookId+ " not found.");
+        };
         return bookRepository
                 .findById(bookId)
-                .orElseThrow(BookNotFoundException::new);
-    }
-
-    @Override
-    @Transactional
-    public void removeBook(UUID bookId) {
-        Book book = getBook(bookId);
-        Author author = book.getAuthor();
-        author.removeBook(book);
+                .orElseThrow(supplier);
     }
 }
