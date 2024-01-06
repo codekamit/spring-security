@@ -1,4 +1,4 @@
-package com.example.spring_security.security;
+package com.example.spring_security.exceptions;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
